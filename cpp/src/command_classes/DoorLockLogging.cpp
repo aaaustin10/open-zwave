@@ -189,7 +189,9 @@ namespace OpenZWave
 					if (EventType >= DoorLockEventType_Max)
 						EventType = DoorLockEventType_Max;
 
-					Log::Write(LogLevel_Info, GetNodeId(), "Received a DoorLockLogging Record %d which is \"%s\"", _data[1], c_DoorLockEventType[EventType - 1]);
+					const char* DoorLockEventString = c_DoorLockEventType[EventType];
+
+					Log::Write(LogLevel_Info, GetNodeId(), "Received a DoorLockLogging Record %d which is \"%s\"", _data[1], DoorLockEventString);
 
 					if (Internal::VC::ValueByte* value = static_cast<Internal::VC::ValueByte*>(GetValue(_instance, ValueID_Index_DoorLockLogging::GetRecordNo)))
 					{
@@ -223,7 +225,7 @@ namespace OpenZWave
 
 						if (valid)
 						{
-							snprintf(msg, sizeof(msg), "%02d/%02d/%02d %02d:%02d:%02d \tMessage: %s \tUserID: %d \t%s", (int) day, (int) month, (int) year, (int) hour, (int) minute, (int) second, c_DoorLockEventType[EventType], (int) userid, usercode);
+							snprintf(msg, sizeof(msg), "%02d/%02d/%02d %02d:%02d:%02d \tMessage: %s \tUserID: %d \t%s", (int) day, (int) month, (int) year, (int) hour, (int) minute, (int) second, DoorLockEventString, (int) userid, usercode);
 						}
 						else
 							snprintf(msg, sizeof(msg), "Invalid Record");
