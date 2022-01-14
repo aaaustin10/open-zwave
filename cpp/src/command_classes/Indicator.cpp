@@ -394,8 +394,10 @@ enum Indicator_Property_offset {
 								value->OnValueRefreshed(Indicator_Property_Group::Binary_Grp);
 								setTimer = false;
 							}
-							else if (setparam >= Indicator_Property_offset::OnOffPeriod_Prop && setparam <= Indicator_Property_offset::OnTimeWithPeriod_Prop)
+							else if (setparam >= Indicator_Property_offset::OnOffPeriod_Prop && setparam <= Indicator_Property_offset::OnTimeWithPeriod_Prop) {
 								value->OnValueRefreshed(Indicator_Property_Group::Toogle_Grp);
+								setTimer = false;
+							}
 							else if (setparam >= Indicator_Property_offset::Timeout_Min_Prop && setparam <= Indicator_Property_offset::Timeout_Ms_Prop)
 								value->OnValueRefreshed(Indicator_Property_Group::Timeout_Grp);
 							else if (setparam == Indicator_Property_offset::Sound_Prop)
