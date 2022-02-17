@@ -103,6 +103,10 @@ namespace OpenZWave
 					 */
 					void Purge();
 
+					bool HasDegraded();
+					void SetDegraded();
+					void ClearDegraded();
+
 				protected:
 					/**
 					 * Formats stream buffer data for output to the log.
@@ -127,6 +131,7 @@ namespace OpenZWave
 					Stream(Stream const&);					// prevent copy
 					Stream& operator =(Stream const&);		// prevent assignment
 
+					bool m_hasDegraded;
 					uint8* m_buffer;
 					uint32 m_bufferSize;
 					uint32 m_signalSize;

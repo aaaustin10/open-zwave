@@ -310,6 +310,7 @@ namespace OpenZWave
 			void SerialControllerImpl::Read(Event* _exitEvent)
 			{
 				uint8 buffer[256];
+				bool read_guaranteed_ready = false;
 
 				while (!_exitEvent->IsSignalled())
 				{
@@ -319,8 +320,15 @@ namespace OpenZWave
 					do
 					{
 						bytesRead = read(m_hSerialController, buffer, sizeof(buffer));
-						if (bytesRead > 0)
+						if (bytesRead > 0) {
 							m_owner->Put(buffer, bytesRead);
+							read_guaranteed_ready = false;
+						}
+						if (bytesRead == 0 && read_guaranteed_ready) {
+							// the controller connection has been closed
+							m_owner->SetDegraded();
+							return;
+						}
 					} while (bytesRead > 0);
 
 					do
@@ -337,6 +345,9 @@ namespace OpenZWave
 
 						pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, &oldstate);
 						err = select(m_hSerialController + 1, &rds, NULL, &eds, whenp);
+						if (err > 0 and FD_ISSET(m_hSerialController, &rds)) {
+							read_guaranteed_ready = true;
+						}
 						pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, &oldstate);
 					} while (err <= 0);
 				}

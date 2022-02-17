@@ -45,7 +45,7 @@ namespace OpenZWave
 //	Constructor
 //-----------------------------------------------------------------------------
 			Stream::Stream(uint32 _bufferSize) :
-					m_bufferSize(_bufferSize), m_signalSize(1), m_dataSize(0), m_head(0), m_tail(0), m_mutex(new Mutex())
+					m_hasDegraded(false), m_bufferSize(_bufferSize), m_signalSize(1), m_dataSize(0), m_head(0), m_tail(0), m_mutex(new Mutex())
 			{
 				m_buffer = new uint8[m_bufferSize];
 				memset(m_buffer, 0x00, m_bufferSize);
@@ -171,13 +171,31 @@ namespace OpenZWave
 				m_dataSize = 0;
 			}
 
+			bool Stream::HasDegraded() {
+				return m_hasDegraded;
+			}
+
+			void Stream::SetDegraded() {
+				m_mutex->Lock();
+				m_hasDegraded = true;
+				Notify();
+				m_mutex->Unlock();
+			}
+
+			void Stream::ClearDegraded() {
+				m_mutex->Lock();
+				m_hasDegraded = false;
+				Notify();
+				m_mutex->Unlock();
+			}
+
 //-----------------------------------------------------------------------------
 //	<Stream::IsSignalled>
 //	Test whether there is enough data to be signalled
 //-----------------------------------------------------------------------------
 			bool Stream::IsSignalled()
 			{
-				return (m_dataSize >= m_signalSize);
+				return (m_dataSize >= m_signalSize) || m_hasDegraded;
 			}
 
 //-----------------------------------------------------------------------------

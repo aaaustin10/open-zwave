@@ -439,6 +439,14 @@ void Driver::DriverThreadProc(Internal::Platform::Event* _exitEvent)
 					}
 					case 3:
 					{
+						if (m_controller->HasDegraded()) {
+							Notification* notification = new Notification(Notification::Type_DriverDegraded);
+							notification->SetHomeAndNodeIds(m_homeId, 1);
+							notification->SetComPort(m_controllerPath);
+							QueueNotification(notification);
+							m_controller->ClearDegraded();
+							break;
+						}
 						// Data has been received
 						ReadMsg();
 						break;

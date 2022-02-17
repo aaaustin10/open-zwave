@@ -116,6 +116,9 @@ string Notification::GetAsString() const
 		case Type_DriverReady:
 			str = "DriverReady";
 			break;
+		case Type_DriverDegraded:
+			str = "DriverDegraded: " + m_comport;
+			break;
 		case Type_DriverFailed:
 			str = "DriverFailed: " + m_comport;
 			break;

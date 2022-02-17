@@ -107,6 +107,7 @@ namespace OpenZWave
 				Type_ButtonOff, /**< Handheld controller button off pressed event */
 				Type_DriverReady, /**< A driver for a PC Z-Wave controller has been added and is ready to use.  The notification will contain the controller's Home ID, which is needed to call most of the Manager methods. */
 				Type_DriverFailed, /**< Driver failed to load */
+				Type_DriverDegraded, /**< Driver was working, but is not now */
 				Type_DriverReset, /**< All nodes and values for this driver have been removed.  This is sent instead of potentially hundreds of individual node and value notifications. */
 				Type_EssentialNodeQueriesComplete, /**< The queries on a node that are essential to its operation have been completed. The node can now handle incoming messages. */
 				Type_NodeQueriesComplete, /**< All the initialization queries on a node have been completed. */
@@ -358,7 +359,7 @@ namespace OpenZWave
 			}
 			void SetComPort(string comport)
 			{
-				assert(Type_DriverFailed == m_type);
+				assert(Type_DriverFailed == m_type || Type_DriverDegraded == m_type);
 				m_comport = comport;
 			}
 			void SetRetry(uint8 const timeout)
