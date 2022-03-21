@@ -1341,6 +1341,18 @@ void Manager::SetNodeOff(uint32 const _homeId, uint8 const _nodeId)
 }
 
 //-----------------------------------------------------------------------------
+// <Manager::SetNodeOff>
+// Override if the driver thinks the node is alive
+//-----------------------------------------------------------------------------
+void Manager::SetNodeAlive(uint32 const _homeId, uint8 const _nodeId, bool isAlive)
+{
+	if (Driver* driver = GetDriver(_homeId))
+	{
+		driver->SetNodeAlive(_nodeId, isAlive);
+	}
+}
+
+//-----------------------------------------------------------------------------
 // <Manager::IsNodeInfoReceived>
 // Helper method to return whether a particular class is available in a node
 //-----------------------------------------------------------------------------

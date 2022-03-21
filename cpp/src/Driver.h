@@ -521,6 +521,7 @@ namespace OpenZWave
 			void SetNodeLevel(uint8 const _nodeId, uint8 const _level);
 			void SetNodeOn(uint8 const _nodeId);
 			void SetNodeOff(uint8 const _nodeId);
+			void SetNodeAlive(uint8 const _nodeId, bool isAlive);
 
 			Internal::VC::Value* GetValue(ValueID const& _id);
 

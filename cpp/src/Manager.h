@@ -840,6 +840,8 @@ namespace OpenZWave
 			 */
 			DEPRECATED void SetNodeLevel(uint32 const _homeId, uint8 const _nodeId, uint8 const _level);
 
+			void SetNodeAlive(uint32 const _homeId, uint8 const _nodeId, bool isAlive);
+
 			/**
 			 * \brief Get whether the node information has been received
 			 * \param _homeId The Home ID of the Z-Wave controller that manages the node.

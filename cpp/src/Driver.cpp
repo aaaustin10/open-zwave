@@ -5054,6 +5054,19 @@ void Driver::SetNodeOff(uint8 const _nodeId)
 }
 
 //-----------------------------------------------------------------------------
+// <Driver::SetNodeAlive>
+// Override whether the node is alive
+//-----------------------------------------------------------------------------
+void Driver::SetNodeAlive(uint8 const _nodeId, bool isAlive)
+{
+	Internal::LockGuard LG(m_nodeMutex);
+	if (Node* node = GetNode(_nodeId))
+	{
+		node->SetNodeAlive(isAlive);
+	}
+}
+
+//-----------------------------------------------------------------------------
 // <Driver::GetValue>
 // Get a pointer to a Value object for the specified ValueID
 //-----------------------------------------------------------------------------
